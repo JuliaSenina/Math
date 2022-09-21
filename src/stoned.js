@@ -15,12 +15,14 @@ export default class Stoned extends Character {
   };
 
   get attack() {
-    this._attack *= (1.1 - 0.1 * this.distance);
-    this._attack = this.stoned ? this._attack - Math.log2(this.distance) * 5 : this._attack;
-    if (this._attack < 0) {
-      this._attack = 0;
+    if (this.distance < 0 || this.distance > 5) {
+      return 0;
     };
-    return Math.round(this._attack);
+    let attack = this._attack - (this._attack / 10) * (this.distance - 1);
+    if (this.stoned === true) {
+      attack -= Math.log2(this.distance) * 5;
+    };
+    return Math.floor(attack);
   };
   
   set attack(valueAttack) {
